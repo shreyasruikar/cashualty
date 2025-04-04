@@ -32,9 +32,9 @@ Managing day-to-day and shared expenses is often scattered and inefficient. Exis
 
 ---
 
-## Figma Design
+## Figma Design Ideation
 
-[View UI Prototype](https://www.figma.com/your-figma-link-here)
+[View UI Prototype]([https://www.figma.com/your-figma-link-here](https://www.figma.com/design/5b9MOk67qt9at3WaDiyrUn/Untitled?node-id=0-1&p=f&t=1ZzOoAFxu3IYwteP-0))
 
 ---
 
