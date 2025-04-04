@@ -29,7 +29,8 @@ Managing day-to-day and shared expenses is often scattered and inefficient. Exis
 - **Frontend**: Flutter  
 - **Backend**: Supabase (Database, Auth, Realtime)  
 - **Design**: Figma
-- **Database**: PostgreSQL  
+- **Database**: PostgreSQL
+- **Security**: JWT Verification
 
 ---
 
