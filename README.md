@@ -26,8 +26,8 @@ Managing day-to-day and shared expenses is often scattered and inefficient. Exis
 
 ## Tech Stack
 
-- **Frontend**: Flutter  
-- **Backend**: Supabase (Database, Auth, Realtime)  
+- **Frontend**: Flutter
+- **Backend**: Supabase (Database, Auth, Realtime)
 - **Design**: Figma
 - **Database**: PostgreSQL
 - **Security**: JWT Verification
@@ -43,18 +43,18 @@ Managing day-to-day and shared expenses is often scattered and inefficient. Exis
 
 ## Supabase Setup
 
-- Used PostgreSQL to store users, expenses, and groups  
-- Enabled real-time updates and notifications via triggers  
-- Authentication handled through Supabase Auth  
+- Used PostgreSQL to store users, expenses, and groups
+- Enabled real-time updates and notifications via triggers
+- Authentication handled through Supabase Auth
 
 ---
 
 ## Run Locally
 
-1. Clone the repo  
-2. Install dependencies: `flutter pub get`  
-3. Add your Supabase URL and key in config  
-4. Run the app: `flutter run`  
+1. Clone the repo
+2. Install dependencies: `flutter pub get`
+3. Add your Supabase URL and key in config
+4. Run the app: `flutter run`
 
 ---
 
