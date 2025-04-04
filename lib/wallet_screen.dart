@@ -37,12 +37,12 @@ class _WalletScreenState extends State<WalletScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Insufficient Balance'),
+          title: const Text('Insufficient Balance', style: TextStyle(color: Colors.blue)),
           content: const Text('You do not have enough balance to make this expense.'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('OK'),
+              child: const Text('OK', style: TextStyle(color: Colors.blue)),
             ),
           ],
         );
@@ -58,7 +58,10 @@ class _WalletScreenState extends State<WalletScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(isIncome ? 'Add Income' : 'Add Expense'),
+          title: Text(
+            isIncome ? 'Add Income' : 'Add Expense',
+            style: const TextStyle(color: Colors.blue),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -76,7 +79,7 @@ class _WalletScreenState extends State<WalletScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
             ),
             TextButton(
               onPressed: () {
@@ -87,7 +90,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   Navigator.pop(context);
                 }
               },
-              child: const Text('Add'),
+              child: const Text('Add', style: TextStyle(color: Colors.blue)),
             ),
           ],
         );
@@ -104,7 +107,7 @@ class _WalletScreenState extends State<WalletScreen> {
         elevation: 0,
         title: const Text(
           'Wallet',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 24),
         ),
         centerTitle: true,
       ),
@@ -116,8 +119,15 @@ class _WalletScreenState extends State<WalletScreen> {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.blue.shade700,
+                color: Colors.blue.shade800,
                 borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blue.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: const Offset(0, 5),
+                  )
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -131,7 +141,7 @@ class _WalletScreenState extends State<WalletScreen> {
                     ),
                   ),
                   const Text(
-                    'available balance',
+                    'Available Balance',
                     style: TextStyle(
                       color: Colors.white70,
                       fontSize: 16,
@@ -140,38 +150,69 @@ class _WalletScreenState extends State<WalletScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 25),
             const Text(
               'Transactions',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
+                color: Colors.black87,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 15),
             Expanded(
               child: ListView.builder(
                 itemCount: transactions.length,
                 itemBuilder: (context, index) {
                   final transaction = transactions[index];
-                  return Card(
-                    elevation: 2,
-                    margin: const EdgeInsets.symmetric(vertical: 8),
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.1),
+                          blurRadius: 5,
+                          offset: const Offset(0, 2),
+                        )
+                      ],
+                    ),
                     child: ListTile(
                       leading: CircleAvatar(
-                        backgroundColor: transaction['isIncome'] ? Colors.green.shade100 : Colors.red.shade100,
+                        backgroundColor: transaction['isIncome']
+                            ? Colors.blue.shade100
+                            : Colors.grey.shade300,
                         child: Icon(
-                          transaction['isIncome'] ? Icons.arrow_downward : Icons.arrow_upward,
-                          color: transaction['isIncome'] ? Colors.green : Colors.red,
+                          transaction['isIncome']
+                              ? Icons.arrow_downward
+                              : Icons.arrow_upward,
+                          color: transaction['isIncome']
+                              ? Colors.blue.shade800
+                              : Colors.black87,
                         ),
                       ),
-                      title: Text(transaction['title'] ?? 'Unknown'),
-                      subtitle: Text(transaction['date'] ?? 'Unknown Date'),
+                      title: Text(
+                        transaction['title'] ?? 'Unknown',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      subtitle: Text(
+                        transaction['date'] ?? 'Unknown Date',
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
                       trailing: Text(
                         "${transaction['isIncome'] ? '+' : '-'}₹${transaction['amount'].toStringAsFixed(2)}",
                         style: TextStyle(
-                          color: transaction['isIncome'] ? Colors.green : Colors.red,
+                          color: transaction['isIncome']
+                              ? Colors.blue.shade800
+                              : Colors.black87,
                           fontWeight: FontWeight.bold,
+                          fontSize: 16,
                         ),
                       ),
                     ),
@@ -186,15 +227,15 @@ class _WalletScreenState extends State<WalletScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.blue.shade800,
             onPressed: () => _showAddTransactionDialog(true),
-            child: const Icon(Icons.add),
+            child: const Icon(Icons.add, color: Colors.white),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 12),
           FloatingActionButton(
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.grey.shade800,
             onPressed: () => _showAddTransactionDialog(false),
-            child: const Icon(Icons.remove),
+            child: const Icon(Icons.remove, color: Colors.white),
           ),
         ],
       ),

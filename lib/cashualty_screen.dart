@@ -72,7 +72,7 @@ class CashualtyScreen extends StatelessWidget {
                     );
                   },
                   child: const Text(
-                    "continue",
+                    "Continue",
                     style: TextStyle(color: Colors.black, fontSize: 18,fontWeight: FontWeight.bold),
                   ),
                 ),

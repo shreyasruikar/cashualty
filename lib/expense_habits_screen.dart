@@ -35,7 +35,7 @@ class _ExpenseHabitsScreenState extends State<ExpenseHabitsScreen> {
             const SizedBox(height: 40),
             const Text(
               "Expense Habits",
-              style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 42, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 30),
 

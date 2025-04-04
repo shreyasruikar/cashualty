@@ -9,71 +9,124 @@ class BillsSubscriptionsScreen extends StatefulWidget {
 }
 
 class _BillsSubscriptionsScreenState extends State<BillsSubscriptionsScreen> {
-  List<Map<String, dynamic>> autoDebits = [
-
-  ];
+  List<Map<String, dynamic>> autoDebits = [];
 
   void _addNewBill() {
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController dateController = TextEditingController();
-    final TextEditingController amountController = TextEditingController();
-
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: const Text("Add New Bill"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: const InputDecoration(labelText: "Bill Name"),
+        final TextEditingController nameController = TextEditingController();
+        final TextEditingController amountController = TextEditingController();
+        DateTime? selectedDate;
+
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: const Text("Add New Bill"),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: nameController,
+                      decoration: const InputDecoration(labelText: "Bill Name"),
+                    ),
+                    const SizedBox(height: 10),
+                    InkWell(
+                      onTap: () async {
+                        final pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2100),
+                        );
+                        if (pickedDate != null) {
+                          setDialogState(() => selectedDate = pickedDate);
+                        }
+                      },
+                      child: InputDecorator(
+                        decoration: InputDecoration(
+                          labelText: "Due Date",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          selectedDate == null
+                              ? "Select Date"
+                              : "${selectedDate!.day} ${_getMonthName(selectedDate!.month)} ${selectedDate!.year}",
+                          style: TextStyle(
+                            color: selectedDate == null ? Colors.grey : Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: amountController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(labelText: "Amount (₹)"),
+                    ),
+                  ],
+                ),
               ),
-              TextField(
-                controller: dateController,
-                decoration: const InputDecoration(labelText: "Due Date (e.g., 15 Apr 2025)"),
-              ),
-              TextField(
-                controller: amountController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: "Amount (₹)"),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Cancel"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (nameController.text.isNotEmpty &&
-                    dateController.text.isNotEmpty &&
-                    amountController.text.isNotEmpty) {
-                  double? amount = double.tryParse(amountController.text);
-                  if (amount != null) {
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Cancel"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (nameController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Please enter bill name")));
+                      return;
+                    }
+                    if (selectedDate == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Please select due date")));
+                      return;
+                    }
+                    if (amountController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Please enter amount")));
+                      return;
+                    }
+
+                    final amount = double.tryParse(amountController.text);
+                    if (amount == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Invalid amount format")));
+                      return;
+                    }
+
                     setState(() {
                       autoDebits.add({
                         "name": nameController.text,
-                        "dueDate": dateController.text,
+                        "dueDate": "${selectedDate!.day} ${_getMonthName(selectedDate!.month)} ${selectedDate!.year}",
                         "amount": amount,
                       });
                     });
                     Navigator.pop(context);
-                  }
-                }
-              },
-              child: const Text("Add"),
-            ),
-          ],
+                  },
+                  child: const Text("Add"),
+                ),
+              ],
+            );
+          },
         );
       },
-    ).then((_) {
-      nameController.dispose();
-      dateController.dispose();
-      amountController.dispose();
-    });
+    );
+  }
+
+
+
+  String _getMonthName(int month) {
+    const months = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    return months[month - 1];
   }
 
   Widget _buildAutoDebitItem(String name, String dueDate, double amount, int index) {
