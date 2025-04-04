@@ -31,6 +31,7 @@ Managing day-to-day and shared expenses is often scattered and inefficient. Exis
 - **Design**: Figma
 - **Database**: PostgreSQL
 - **Security**: JWT Verification
+- **Notification**: FCM
 
 ---
 
